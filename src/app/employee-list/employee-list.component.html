@@ -1,0 +1,38 @@
+<h2> Employee List</h2>
+
+<div class="input-group">
+  <div class="form-outline">
+    <!-- <input name="name" [(ngModel)]="Search"   id="search-input" type="text"  class="form-control"  placeholder="Input name" (keyup)="applyFilter"/>
+    <button *ngIf="Search" (click)="onSearchClear()"></button> -->
+    <input name="name" [(ngModel)]="name"   id="search-input" type="text" (ngModelChange)="Search()" class="form-control"  placeholder="Input name"/>
+  </div>
+</div>
+<table class = "table table-striped">
+    <thead>
+        <tr>
+            <th (click)="sort('id')" >id&nbsp;<i class="fas fa-sort"></i></th>
+            <th (click)="sort('name')" >name&nbsp;<i class="fas fa-sort"></i></th>
+            <th (click)="sort('email')" >Email&nbsp;<i class="fas fa-sort"></i></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = "let employee of employees |  orderBy :key :reverse | paginate:{ itemsPerPage: 4, currentPage:p}; ">
+            <td> {{ employee.id }} </td>
+            <td> {{ employee.name }} </td>
+            <td> {{ employee.email }} </td>
+            <td>
+                <button class = "btn btn-primary" (click)="updateEmployee(employee.id)" > Edit </button>
+                <button class = "btn btn-danger" (click)="deleteEmployee(employee.id)" style="margin-left: 10px"> Delete </button>
+                <button (click) = "employeeDetails(employee.id)" class = "btn btn-info" style="margin-left: 10px"> View</button>
+            </td>
+
+        </tr>
+        <tr scope="row" *ngIf="employees.length == 0">
+          <td colspan="6" class="text-center">No record found</td>
+        </tr>
+    </tbody>
+
+</table>
+<pagination-controls (pageChange) ="p = $event"></pagination-controls>
+<!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" [length]="totalElements" (page)="nextPage($event)"> </mat-paginator> -->
+
